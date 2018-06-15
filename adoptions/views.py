@@ -3,9 +3,14 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import Http404
+
+from .models import Pet
 
 def home(request):
-    return HttpResponse('<p> Welcome to the Homepage </p>')
+    pets = Pet.objects.all()
+    return render(request, 'home.html', {'pets': pets})
 
 def pet_detail(request, id):
-    return HttpResponse("<p>showing the details of id {}</p>".format(id))
+    pet=Pet.objects.get(id=id)
+    return render(request, 'pet_detail.html', {'pet': pet})
